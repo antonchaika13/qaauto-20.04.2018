@@ -12,7 +12,7 @@ public class LinkedinLoginTest {
         WebDriver webDriver = new FirefoxDriver();
         webDriver.get("https://www.linkedin.com");
 
-
+        Assert.assertEquals(webDriver.getTitle(), "LinkedIn: Log In or Sign Up", "Page title is wrong");
 
         WebElement userEmailField = webDriver.findElement(By.xpath("//input[@id='login-email']"));
         WebElement userPasswordField = webDriver.findElement(By.xpath("//input[@id='login-password']"));
