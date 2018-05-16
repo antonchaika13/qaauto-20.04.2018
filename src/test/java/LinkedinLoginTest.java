@@ -198,25 +198,16 @@ public class LinkedinLoginTest {
     }
 
     @Test
-    public void verifyLoginWhenPasswordIsTooSmall() throws InterruptedException {
+    public void verifyLoginWhenPasswordIsTooSmall() {
+        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
+        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
+                "Login page title is wrong.");
+        linkedinLoginPage.login("mir2asrt1@gmail.com", "0" );
 
-        WebElement signInButton = webDriver.findElement(By.xpath("//input[@id='login-submit']"));
-        Assert.assertTrue(signInButton.isDisplayed(), "Sign in button is missing");
-
-        WebElement userEmailField = webDriver.findElement(By.xpath("//input[@id='login-email']"));
-        userEmailField.sendKeys("mir2asrt1@gmail.com");
-
-        WebElement userPasswordField = webDriver.findElement(By.xpath("//input[@id='login-password']"));
-        userPasswordField.sendKeys("0");
-
-        signInButton.click();
-        sleep(3000);
-
-        WebElement errorPasswordLength = webDriver.findElement(By.xpath("//span[@id='session_password-login-error']"));
-        Assert.assertEquals(errorPasswordLength.getText(), "The password you provided must have at least 6 characters.",
+        LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
+        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorForInvalidPasswordDisplayed(),
+                "The password you provided must have at least 6 characters.",
                 "Error message for invalid password length is missing or incorrect");
-
-
     }
 
     @Test
@@ -227,7 +218,7 @@ public class LinkedinLoginTest {
         linkedinLoginPage.login("0", "June0619!" );
 
         LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
-        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorForInvalidPasswordDisplayed(),
+        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorForInvalidEmailDisplayed(),
                 "Be sure to include \"+\" and your country code.",
                 "Error message for invalid password is missing or incorrect");
     }
