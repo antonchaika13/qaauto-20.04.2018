@@ -22,13 +22,22 @@ public class LinkedinLoginTest {
         webDriver.close();
     }
 
-    @Test
-    public void successfulLoginTest() {
+    @DataProvider
+    public Object[][] ValidDataProvider() {
+        return new Object[][]{
+                { "mir2asrt1@gmail.com", "June0619!" },
+                { "MIR2ASRT1@GMAIL.COM", "June0619!" }
+
+        };
+    }
+
+    @Test(dataProvider = "ValidDataProvider")
+    public void successfulLoginTest(String userEmail, String userPassword ) {
 
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
         Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong.");
-        linkedinLoginPage.login("mir2asrt1@gmail.com", "June0619!" );
+        linkedinLoginPage.login(userEmail, userPassword);
 
         LinkedinHomePage linkedinHomePage = new LinkedinHomePage(webDriver);
         Assert.assertTrue(linkedinHomePage.isProfileMenuDisplayed(),"Profile menu is not displayed after login");
