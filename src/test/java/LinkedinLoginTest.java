@@ -1,11 +1,9 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import static java.lang.Thread.sleep;
+
 
 public class LinkedinLoginTest {
 
@@ -52,8 +50,6 @@ public class LinkedinLoginTest {
 
 
 
-    //Negative tests
-
     @DataProvider
     public Object[][] EmptyValuesDataProvider() {
         return new Object[][]{
@@ -74,7 +70,7 @@ public class LinkedinLoginTest {
     public Object[][] IncorrectPasswordDataProvider() {
         return new Object[][]{
                 { "mir2asrt1@gmail.com", "June0619" },
-                { "mir2asrt@gmail.com", "JUNE0619!" },
+                //{ "mir2asrt@gmail.com", "JUNE0619!" },
         };
     }
 
@@ -86,8 +82,8 @@ public class LinkedinLoginTest {
         linkedinLoginPage.login(correctEmail, incorrectPassword);
 
         LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
-        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorMessageDisplayed(),
-                "Hmm, that's not the right password. Please try again or <a class=\"password-reminder-link\" href=\"/uas/request-password-reset\">request a new one.</a>",
+        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.getErrorMessageDisplayed(),
+                "Hmm, that's not the right password. Please try again or request a new one.",
                 "Error message for invalid password is missing or incorrect");
     }
 
@@ -111,7 +107,7 @@ public class LinkedinLoginTest {
         linkedinLoginPage.login(incorrectEmail, correctPassword);
 
         LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
-        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorForInvalidEmailDisplayed(),
+        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.getErrorForInvalidEmailDisplayed(),
                 "Please enter a valid email address.",
                 "Error message for invalid email format is missing or incorrect");
     }
@@ -125,7 +121,7 @@ public class LinkedinLoginTest {
         linkedinLoginPage.login("mir2asrt1@gmail.com", "0" );
 
         LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
-        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorForInvalidPasswordDisplayed(),
+        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.getErrorForInvalidPasswordDisplayed(),
                 "The password you provided must have at least 6 characters.",
                 "Error message for invalid password length is missing or incorrect");
     }
@@ -138,7 +134,7 @@ public class LinkedinLoginTest {
         linkedinLoginPage.login("0", "June0619!" );
 
         LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
-        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorForInvalidEmailDisplayed(),
+        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.getErrorForInvalidEmailDisplayed(),
                 "Be sure to include \"+\" and your country code.",
                 "Error message for invalid password is missing or incorrect");
     }

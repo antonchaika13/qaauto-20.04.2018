@@ -21,7 +21,7 @@ public class LinkedinIncorrectLoginAndPasswordPage {
         errorInvalidPassword = webDriver.findElement(By.xpath("//span[@id='session_password-login-error']"));
     }
 
-    public String isErrorMessageDisplayed(){return errorMessageInvalidPassword.getText(); }
-    public String isErrorForInvalidEmailDisplayed(){return errorInvalidEmailFormat.getText(); }
-    public String isErrorForInvalidPasswordDisplayed(){return errorInvalidPassword.getText(); }
+    public String getErrorMessageDisplayed(){return errorMessageInvalidPassword.getText(); }
+    public String getErrorForInvalidEmailDisplayed(){return errorInvalidEmailFormat.getText(); }
+    public String getErrorForInvalidPasswordDisplayed(){return errorInvalidPassword.getText(); }
 }
