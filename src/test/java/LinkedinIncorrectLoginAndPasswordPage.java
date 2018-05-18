@@ -2,8 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class LinkedinIncorrectLoginAndPasswordPage {
-    private WebDriver webDriver;
+public class LinkedinIncorrectLoginAndPasswordPage extends LinkedinBasePage {
 
     private WebElement errorMessageInvalidPassword;
     private WebElement errorInvalidEmailFormat;
@@ -11,8 +10,13 @@ public class LinkedinIncorrectLoginAndPasswordPage {
 
 
     public LinkedinIncorrectLoginAndPasswordPage(WebDriver webDriver) {
-        this.webDriver = webDriver;
+        super(webDriver);
         initElements();
+    }
+
+    @Override
+    boolean isPageLoaded() {
+        return errorMessageInvalidPassword.isDisplayed();
     }
 
     public void initElements(){

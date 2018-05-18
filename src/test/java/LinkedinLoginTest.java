@@ -24,31 +24,26 @@ public class LinkedinLoginTest {
     public Object[][] ValidDataProvider() {
         return new Object[][]{
                 { "mir2asrt1@gmail.com", "June0619!" },
-                { "MIR2ASRT1@GMAIL.COM", "June0619!" },
-                { "\tmir2asrt1@gmail.com", "June0619!" },
-                { "Mir2asrt1@gmail.com", "June0619!" },
+                //{ "MIR2ASRT1@GMAIL.COM", "June0619!" },
+                //{ "\tmir2asrt1@gmail.com", "June0619!" },
+                //{ "Mir2asrt1@gmail.com", "June0619!" },
 
         };
     }
 
     @Test(dataProvider = "ValidDataProvider")
     public void successfulLoginTest(String userEmail, String userPassword ) {
-
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
-                "Login page title is wrong.");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(),
+                "Login page is not loaded");
+
         linkedinLoginPage.login(userEmail, userPassword);
 
         LinkedinHomePage linkedinHomePage = new LinkedinHomePage(webDriver);
-        Assert.assertTrue(linkedinHomePage.isProfileMenuDisplayed(),"Profile menu is not displayed after login");
+        Assert.assertTrue(linkedinHomePage.isPageLoaded(),
+                "Home page is not loaded");
 
-
-        //Fixme: use inheritance
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn",
-                "Home page title is wrong.");
     }
-
-
 
     @DataProvider
     public Object[][] EmptyValuesDataProvider() {
@@ -63,21 +58,21 @@ public class LinkedinLoginTest {
     public void verifyLoginWithEmptyUsernameAndPassword(String emptyEmail, String emptyPassword)  {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
         linkedinLoginPage.login(emptyEmail, emptyPassword);
-        Assert.assertTrue(linkedinLoginPage.isSignInButtonDisplayed(), "Sign in button is missing");
+        Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
     }
 
     @DataProvider
     public Object[][] IncorrectPasswordDataProvider() {
         return new Object[][]{
                 { "mir2asrt1@gmail.com", "June0619" },
-                //{ "mir2asrt@gmail.com", "JUNE0619!" },
+                { "mir2asrt@gmail.com", "JUNE0619!" },
         };
     }
 
         @Test(dataProvider = "IncorrectPasswordDataProvider")
     public void verifyLoginWithValidEmailAndInvalidPassword(String correctEmail, String incorrectPassword)  {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
+        Assert.assertEquals(linkedinLoginPage.getCurrentTitle(), "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong.");
         linkedinLoginPage.login(correctEmail, incorrectPassword);
 
@@ -102,7 +97,7 @@ public class LinkedinLoginTest {
     @Test(dataProvider = "IncorrectEmailDataProvider")
     public void verifyLoginWithIncorrectFormatOfEmail(String incorrectEmail, String correctPassword)  {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
+        Assert.assertEquals(linkedinLoginPage.getCurrentTitle(), "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong.");
         linkedinLoginPage.login(incorrectEmail, correctPassword);
 
@@ -116,7 +111,7 @@ public class LinkedinLoginTest {
     @Test
     public void verifyLoginWhenPasswordIsTooSmall() {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
+        Assert.assertEquals(linkedinLoginPage.getCurrentTitle(), "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong.");
         linkedinLoginPage.login("mir2asrt1@gmail.com", "0" );
 
@@ -129,7 +124,7 @@ public class LinkedinLoginTest {
     @Test
     public void verifyLoginWhenEmailAddressValueEqualZero()  {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
+        Assert.assertEquals(linkedinLoginPage.getCurrentTitle(), "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong.");
         linkedinLoginPage.login("0", "June0619!" );
 

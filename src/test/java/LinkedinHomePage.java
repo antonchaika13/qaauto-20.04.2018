@@ -2,14 +2,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class LinkedinHomePage {
-    private WebDriver webDriver;
+public class LinkedinHomePage extends LinkedinBasePage {
 
     private WebElement profileMenu;
 
     public LinkedinHomePage(WebDriver webDriver) {
-        this.webDriver = webDriver;
+        super(webDriver);
         initElements();
+    }
+
+    @Override
+    boolean isPageLoaded() {
+        return profileMenu.isDisplayed();
     }
 
     public void initElements(){
@@ -17,7 +21,4 @@ public class LinkedinHomePage {
 
     }
 
-    public boolean isProfileMenuDisplayed(){
-        return profileMenu.isDisplayed();
-    }
 }
