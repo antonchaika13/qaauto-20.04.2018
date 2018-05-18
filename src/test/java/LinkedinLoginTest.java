@@ -26,7 +26,9 @@ public class LinkedinLoginTest {
     public Object[][] ValidDataProvider() {
         return new Object[][]{
                 { "mir2asrt1@gmail.com", "June0619!" },
-                { "MIR2ASRT1@GMAIL.COM", "June0619!" }
+                { "MIR2ASRT1@GMAIL.COM", "June0619!" },
+                { "\tmir2asrt1@gmail.com", "June0619!" },
+                { "Mir2asrt1@gmail.com", "June0619!" },
 
         };
     }
@@ -48,104 +50,65 @@ public class LinkedinLoginTest {
                 "Home page title is wrong.");
     }
 
-    @Test
-    public void emailInUpperCasePasswordValid() throws InterruptedException {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
-                "Login page title is wrong.");
-        linkedinLoginPage.login("MIR2ASRT1@GMAIL.COM", "June0619!" );
 
-        LinkedinHomePage linkedinHomePage = new LinkedinHomePage(webDriver);
-        Assert.assertTrue(linkedinHomePage.isProfileMenuDisplayed(),"Profile menu is not displayed after login");
-
-         //Fixme: use inheritance
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn",
-                "Page title is wrong");
-    }
-
-    @Test
-    public void validEmailStartedWithSpace() throws InterruptedException {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
-                "Login page title is wrong.");
-        linkedinLoginPage.login("\tmir2asrt1@gmail.com", "June0619!" );
-
-        LinkedinHomePage linkedinHomePage = new LinkedinHomePage(webDriver);
-        Assert.assertTrue(linkedinHomePage.isProfileMenuDisplayed(),"Profile menu is not displayed after login");
-
-        //Fixme: use inheritance
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn",
-                "Page title is wrong");
-    }
 
     //Negative tests
 
-    @Test
-    public void verifyLoginWithEmptyUsernameAndPassword()  {
+    @DataProvider
+    public Object[][] EmptyValuesDataProvider() {
+        return new Object[][]{
+                { "", "" },
+                { "", "June0619!" },
+                { "mir2asrt1@gmail.com", "" },
+        };
+    }
+
+    @Test(dataProvider = "EmptyValuesDataProvider")
+    public void verifyLoginWithEmptyUsernameAndPassword(String emptyEmail, String emptyPassword)  {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        linkedinLoginPage.login("", "" );
+        linkedinLoginPage.login(emptyEmail, emptyPassword);
         Assert.assertTrue(linkedinLoginPage.isSignInButtonDisplayed(), "Sign in button is missing");
     }
 
-    @Test
-    public void verifyLoginWithValidEmailAndEmptyPassword()  {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        linkedinLoginPage.login("mir2asrt1@gmail.com", "" );
-        Assert.assertTrue(linkedinLoginPage.isSignInButtonDisplayed(), "Sign in button is missing");
+    @DataProvider
+    public Object[][] IncorrectPasswordDataProvider() {
+        return new Object[][]{
+                { "mir2asrt1@gmail.com", "June0619" },
+                { "mir2asrt@gmail.com", "JUNE0619!" },
+        };
     }
 
-    @Test
-    public void verifyLoginWithEmptyEmailAndValidPassword()  {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        linkedinLoginPage.login("", "June0619!" );
-        Assert.assertTrue(linkedinLoginPage.isSignInButtonDisplayed(), "Sign in button is missing");
-    }
-
-    @Test
-    public void verifyLoginWithValidEmailAndInvalidPassword()  {
+        @Test(dataProvider = "IncorrectPasswordDataProvider")
+    public void verifyLoginWithValidEmailAndInvalidPassword(String correctEmail, String incorrectPassword)  {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
         Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong.");
-        linkedinLoginPage.login("mir2asrt1@gmail.com", "June0619" );
+        linkedinLoginPage.login(correctEmail, incorrectPassword);
 
         LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
         Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorMessageDisplayed(),
-                "Hmm, that's not the right password. Please try again or request a new one.",
+                "Hmm, that's not the right password. Please try again or <a class=\"password-reminder-link\" href=\"/uas/request-password-reset\">request a new one.</a>",
                 "Error message for invalid password is missing or incorrect");
     }
 
-    @Test
-    public void verifyLoginWithInvalidEmailAndValidPassword()  {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
-                "Login page title is wrong.");
-        linkedinLoginPage.login("jgdjgdkg@gmail.com", "June0619" );
 
-        LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
-        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorForInvalidEmailDisplayed(),
-                "Hmm, we don't recognize that email. Please try again.",
-                "Error message for non-recognized email is missing or incorrect");
+    @DataProvider
+    public Object[][] IncorrectEmailDataProvider() {
+        return new Object[][]{
+                { "mir2asrt1", "June0619!" },
+                { "@gmail.com", "June0619!" },
+                { "#@%^%#$@#$@#.com", "June0619!" },
+                { "June0619!", "mir2asrt1@gmail.com" },
+                { "<script>alert(mir2asrt1@gmail.com)</script>", "June0619!" },
+        };
     }
 
-    @Test
-    public void verifyLoginWithIncorrectFormatOfEmail()  {
+    @Test(dataProvider = "IncorrectEmailDataProvider")
+    public void verifyLoginWithIncorrectFormatOfEmail(String incorrectEmail, String correctPassword)  {
         LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
         Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong.");
-        linkedinLoginPage.login("mir2asrt1", "June0619!" );
-
-        LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
-        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorForInvalidEmailDisplayed(),
-                "Please enter a valid email address.",
-                "Error message for invalid email format is missing or incorrect");
-    }
-
-    @Test
-    public void verifyLoginWithMissedAddressInEmailAddress()  {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
-                "Login page title is wrong.");
-        linkedinLoginPage.login("@gmail.com", "June0619!" );
+        linkedinLoginPage.login(incorrectEmail, correctPassword);
 
         LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
         Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorForInvalidEmailDisplayed(),
@@ -153,58 +116,6 @@ public class LinkedinLoginTest {
                 "Error message for invalid email format is missing or incorrect");
     }
 
-    @Test
-    public void verifyLoginWhenSpecialSymbolsPresentInEmail()  {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
-                "Login page title is wrong.");
-        linkedinLoginPage.login("#@%^%#$@#$@#.com", "June0619!" );
-
-        LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
-        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorForInvalidEmailDisplayed(),
-                "Please enter a valid email address.",
-                "Error message for invalid email format is missing or incorrect");
-    }
-
-    @Test
-    public void verifyLoginWhenValidPasswordIsWrittenWithUppercase() {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
-                "Login page title is wrong.");
-        linkedinLoginPage.login("mir2asrt@gmail.com", "JUNE0619!" );
-
-        LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
-        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorForInvalidPasswordDisplayed(),
-                "Hmm, that's not the right password. Please try again or request a new one.",
-                "Error message for invalid password is missing or incorrect");
-    }
-
-    @Test
-    public void verifyLoginWhenValidEmailEnteredinPasswordAndValidPasswordEnteredinEmail()  {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
-                "Login page title is wrong.");
-        linkedinLoginPage.login("June0619!", "mir2asrt1@gmail.com" );
-
-        LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
-        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorForInvalidEmailDisplayed(),
-                "Please enter a valid email address.",
-                "Error message for invalid email format is missing or incorrect");
-
-    }
-
-    @Test
-    public void verifyJSInjectionInEmailAddressField()  {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
-        Assert.assertEquals(linkedinLoginPage.getCurrentPageTitle(), "LinkedIn: Log In or Sign Up",
-                "Login page title is wrong.");
-        linkedinLoginPage.login("<script>alert(mir2asrt1@gmail.com)</script>", "June0619!" );
-
-        LinkedinIncorrectLoginAndPasswordPage linkedinIncorrectLoginAndPasswordPage = new LinkedinIncorrectLoginAndPasswordPage(webDriver);
-        Assert.assertEquals(linkedinIncorrectLoginAndPasswordPage.isErrorForInvalidEmailDisplayed(),
-                "Please enter a valid email address.",
-                "Error message for invalid email format is missing or incorrect");
-    }
 
     @Test
     public void verifyLoginWhenPasswordIsTooSmall() {
