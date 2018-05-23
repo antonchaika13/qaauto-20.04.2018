@@ -1,4 +1,5 @@
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -133,6 +134,5 @@ public class LinkedinLoginTest {
                 "Be sure to include \"+\" and your country code.",
                 "Error message for invalid password is missing or incorrect");
     }
-
 }
 
