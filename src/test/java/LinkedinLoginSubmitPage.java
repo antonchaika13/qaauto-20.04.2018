@@ -2,14 +2,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class LinkedinIncorrectLoginAndPasswordPage extends LinkedinBasePage {
+public class LinkedinLoginSubmitPage extends LinkedinBasePage {
 
     private WebElement errorMessageInvalidPassword;
     private WebElement errorInvalidEmailFormat;
     private WebElement errorInvalidPassword;
 
 
-    public LinkedinIncorrectLoginAndPasswordPage(WebDriver webDriver) {
+    public LinkedinLoginSubmitPage(WebDriver webDriver) {
         super(webDriver);
         initElements();
     }

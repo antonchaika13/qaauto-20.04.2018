@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 public class LinkedinHomePage extends LinkedinBasePage {
 
     private WebElement profileMenu;
-    private WebElement searchTab;
+    private WebElement searchField;
 
     public LinkedinHomePage(WebDriver webDriver) {
         super(webDriver);
@@ -20,12 +20,13 @@ public class LinkedinHomePage extends LinkedinBasePage {
 
     public void initElements(){
         profileMenu = webDriver.findElement(By.xpath("//li[@id='profile-nav-item']"));
-        searchTab = webDriver.findElement(By.xpath("//div[@class='nav-search-bar']//input[@role='combobox']"));
+        searchField = webDriver.findElement(By.xpath("//input[@role and @placeholder='Search']"));
 
     }
-    public void setSearchTab  (String searchQuery){
-        searchTab.sendKeys(searchQuery);
-        searchTab.sendKeys(Keys.RETURN);
-    };
+
+    public void search(String searchTerm) {
+        searchField.sendKeys(searchTerm);
+        searchField.sendKeys(Keys.RETURN);
+    }
 
 }
