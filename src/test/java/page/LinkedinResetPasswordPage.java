@@ -1,10 +1,11 @@
+package page;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import page.LinkedinBasePage;
 
-import java.util.List;
-
-public class LinkedinResetPasswordPage extends LinkedinBasePage  {
+public class LinkedinResetPasswordPage extends LinkedinBasePage {
     WebElement enterEmailForResetPassword;
     WebElement submitButtonForResetPassword;
 
@@ -21,7 +22,7 @@ public class LinkedinResetPasswordPage extends LinkedinBasePage  {
     }
 
         @Override
-    boolean isPageLoaded() {
+        public boolean isPageLoaded() {
         return true;
     }
 

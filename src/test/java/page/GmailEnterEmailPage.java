@@ -1,3 +1,5 @@
+package page;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -17,7 +19,7 @@ public class GmailEnterEmailPage extends LinkedinBasePage {
     }
 
     @Override
-    boolean isPageLoaded() {
+    public boolean isPageLoaded() {
         return enterEmailFromGmail.isDisplayed();
     }
 

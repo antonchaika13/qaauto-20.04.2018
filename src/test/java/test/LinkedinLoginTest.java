@@ -1,24 +1,13 @@
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+package test;
+
 import org.testng.Assert;
 import org.testng.annotations.*;
+import page.LinkedinHomePage;
+import page.LinkedinLoginSubmitPage;
 
 
+public class LinkedinLoginTest extends LinkedinBaseTest {
 
-public class LinkedinLoginTest {
-
-    WebDriver webDriver;
-
-    @BeforeMethod
-    public void before() {
-        webDriver = new FirefoxDriver();
-        webDriver.get("https://www.linkedin.com");
-    }
-
-    @AfterMethod
-    public void after() {
-        webDriver.close();
-    }
 
     @DataProvider
     public Object[][] ValidDataProvider() {
@@ -33,13 +22,10 @@ public class LinkedinLoginTest {
 
     @Test(dataProvider = "ValidDataProvider")
     public void successfulLoginTest(String userEmail, String userPassword ) {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(),
                 "Login page is not loaded");
 
-        linkedinLoginPage.login(userEmail, userPassword);
-
-        LinkedinHomePage linkedinHomePage = new LinkedinHomePage(webDriver);
+        LinkedinHomePage linkedinHomePage = linkedinLoginPage.login(userEmail, userPassword);
         Assert.assertTrue(linkedinHomePage.isPageLoaded(),
                 "Home page is not loaded");
 
@@ -56,7 +42,6 @@ public class LinkedinLoginTest {
 
     @Test(dataProvider = "EmptyValuesDataProvider")
     public void verifyLoginWithEmptyUsernameAndPassword(String emptyEmail, String emptyPassword)  {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
         linkedinLoginPage.login(emptyEmail, emptyPassword);
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(), "Login page is not loaded");
     }
@@ -71,12 +56,10 @@ public class LinkedinLoginTest {
 
         @Test(dataProvider = "IncorrectPasswordDataProvider")
     public void verifyLoginWithValidEmailAndInvalidPassword(String correctEmail, String incorrectPassword)  {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(), "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong.");
-        linkedinLoginPage.login(correctEmail, incorrectPassword);
 
-        LinkedinLoginSubmitPage linkedinLoginSubmitPage = new LinkedinLoginSubmitPage(webDriver);
+        LinkedinLoginSubmitPage linkedinLoginSubmitPage = linkedinLoginPage.loginWithInvalidData(correctEmail, incorrectPassword);
         Assert.assertEquals(linkedinLoginSubmitPage.getErrorMessageDisplayed(),
                 "Hmm, that's not the right password. Please try again or request a new one.",
                 "Error message for invalid password is missing or incorrect");
@@ -96,7 +79,6 @@ public class LinkedinLoginTest {
 
     @Test(dataProvider = "IncorrectEmailDataProvider")
     public void verifyLoginWithIncorrectFormatOfEmail(String incorrectEmail, String correctPassword)  {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(), "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong.");
         linkedinLoginPage.login(incorrectEmail, correctPassword);
@@ -110,7 +92,6 @@ public class LinkedinLoginTest {
 
     @Test
     public void verifyLoginWhenPasswordIsTooSmall() {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(), "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong.");
         linkedinLoginPage.login("mir2asrt1@gmail.com", "0" );
@@ -123,7 +104,6 @@ public class LinkedinLoginTest {
 
     @Test
     public void verifyLoginWhenEmailAddressValueEqualZero()  {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(), "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong.");
         linkedinLoginPage.login("0", "June0619!" );

@@ -1,23 +1,12 @@
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+package test;
+
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import page.*;
+import test.LinkedinBaseTest;
 
-public class LinkedinResetPasswordTest {
-    WebDriver webDriver;
+public class LinkedinResetPasswordTest extends LinkedinBaseTest {
 
-    @BeforeMethod
-    public void before() {
-        webDriver = new FirefoxDriver();
-        webDriver.get("https://www.linkedin.com");
-    }
-
-    @AfterMethod
-    public void after() {
-        webDriver.close();
-    }
 
     @Test
     public void successfulResetPasswordTest() {
