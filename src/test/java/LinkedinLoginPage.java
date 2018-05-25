@@ -7,6 +7,7 @@ public class LinkedinLoginPage extends LinkedinBasePage {
     private WebElement userEmailField;
     private WebElement userPasswordField;
     private WebElement signInButton;
+    private WebElement forgotPasswordButton;
 
 
     public LinkedinLoginPage(WebDriver webDriver) {
@@ -23,12 +24,21 @@ public class LinkedinLoginPage extends LinkedinBasePage {
         userEmailField = webDriver.findElement(By.xpath("//input[@id='login-email']"));
         userPasswordField = webDriver.findElement(By.xpath("//input[@id='login-password']"));
         signInButton = webDriver.findElement(By.xpath("//input[@id='login-submit']"));
+        forgotPasswordButton = webDriver.findElement(By.xpath("//a[@ class='link-forgot-password']"));
     }
 
     public void login(String userEmail, String userPassword) {
         userEmailField.sendKeys(userEmail);
         userPasswordField.sendKeys(userPassword);
         signInButton.click();
+
+    }
+
+    public void clickOnForgotPasswordLink() {
+        //userEmailField.sendKeys(userEmail);
+        //userPasswordField.sendKeys(userPassword);
+        //signInButton.click();
+        forgotPasswordButton.click();
 
     }
 
