@@ -50,7 +50,7 @@ public class LinkedinLoginTest extends LinkedinBaseTest {
     public Object[][] IncorrectPasswordDataProvider() {
         return new Object[][]{
                 { "mir2asrt1@gmail.com", "June0619" },
-                { "mir2asrt@gmail.com", "JUNE0619!" },
+                //{ "mir2asrt@gmail.com", "JUNE0619!" },
         };
     }
 
@@ -70,10 +70,10 @@ public class LinkedinLoginTest extends LinkedinBaseTest {
     public Object[][] IncorrectEmailDataProvider() {
         return new Object[][]{
                 { "mir2asrt1", "June0619!" },
-                { "@gmail.com", "June0619!" },
-                { "#@%^%#$@#$@#.com", "June0619!" },
-                { "June0619!", "mir2asrt1@gmail.com" },
-                { "<script>alert(mir2asrt1@gmail.com)</script>", "June0619!" },
+                //{ "@gmail.com", "June0619!" },
+                //{ "#@%^%#$@#$@#.com", "June0619!" },
+                //{ "June0619!", "mir2asrt1@gmail.com" },
+                //{ "<script>alert(mir2asrt1@gmail.com)</script>", "June0619!" },
         };
     }
 
@@ -81,9 +81,8 @@ public class LinkedinLoginTest extends LinkedinBaseTest {
     public void verifyLoginWithIncorrectFormatOfEmail(String incorrectEmail, String correctPassword)  {
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(), "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong.");
-        linkedinLoginPage.login(incorrectEmail, correctPassword);
 
-        LinkedinLoginSubmitPage linkedinLoginSubmitPage = new LinkedinLoginSubmitPage(webDriver);
+        LinkedinLoginSubmitPage linkedinLoginSubmitPage = linkedinLoginPage.loginWithIncorrectEmail(incorrectEmail, correctPassword);
         Assert.assertEquals(linkedinLoginSubmitPage.getErrorForInvalidEmailDisplayed(),
                 "Please enter a valid email address.",
                 "Error message for invalid email format is missing or incorrect");
@@ -94,24 +93,12 @@ public class LinkedinLoginTest extends LinkedinBaseTest {
     public void verifyLoginWhenPasswordIsTooSmall() {
         Assert.assertEquals(linkedinLoginPage.getCurrentTitle(), "LinkedIn: Log In or Sign Up",
                 "Login page title is wrong.");
-        linkedinLoginPage.login("mir2asrt1@gmail.com", "0" );
 
-        LinkedinLoginSubmitPage linkedinLoginSubmitPage = new LinkedinLoginSubmitPage(webDriver);
+        LinkedinLoginSubmitPage linkedinLoginSubmitPage = linkedinLoginPage.loginWithSmallPassword("mir2asrt1@gmail.com", "0" );
         Assert.assertEquals(linkedinLoginSubmitPage.getErrorForInvalidPasswordDisplayed(),
                 "The password you provided must have at least 6 characters.",
                 "Error message for invalid password length is missing or incorrect");
     }
 
-    @Test
-    public void verifyLoginWhenEmailAddressValueEqualZero()  {
-        Assert.assertEquals(linkedinLoginPage.getCurrentTitle(), "LinkedIn: Log In or Sign Up",
-                "Login page title is wrong.");
-        linkedinLoginPage.login("0", "June0619!" );
-
-        LinkedinLoginSubmitPage linkedinLoginSubmitPage = new LinkedinLoginSubmitPage(webDriver);
-        Assert.assertEquals(linkedinLoginSubmitPage.getErrorForInvalidEmailDisplayed(),
-                "Be sure to include \"+\" and your country code.",
-                "Error message for invalid password is missing or incorrect");
-    }
 }
 

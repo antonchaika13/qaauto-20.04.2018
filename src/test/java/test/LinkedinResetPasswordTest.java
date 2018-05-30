@@ -3,40 +3,40 @@ package test;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import page.*;
-import test.LinkedinBaseTest;
 
 public class LinkedinResetPasswordTest extends LinkedinBaseTest {
 
 
     @Test
-    public void successfulResetPasswordTest() {
-        LinkedinLoginPage linkedinLoginPage = new LinkedinLoginPage(webDriver);
+    public void successfulPasswordReset() {
+        String userEmail = "mir2asrt1@gmail.com";
         Assert.assertTrue(linkedinLoginPage.isPageLoaded(),
                 "Linkedin login page is not loaded.");
 
-        linkedinLoginPage.clickOnForgotPasswordLink();
+        LinkedinRequestPasswordResetPage linkedinRequestPasswordResetPage = linkedinLoginPage.clickOnForgotPasswordLink();
+        Assert.assertTrue(linkedinRequestPasswordResetPage.isPageLoaded(),
+                "Linkedin login page is not loaded.");
 
-        LinkedinResetPasswordPage linkedinResetPasswordPage = new LinkedinResetPasswordPage(webDriver);
-        Assert.assertTrue(linkedinResetPasswordPage.isPageLoaded(),
-                "Linkedin reset password page is not loaded.");
-        linkedinResetPasswordPage.submitEmailForResetPassword("mir2asrt1@gmail.com");
+        LinkedinRequestPasswordResetSubmitPage linkedinRequestPasswordResetSubmitPage=linkedinRequestPasswordResetPage.submitUserEmail();
+        Assert.assertTrue(linkedinRequestPasswordResetSubmitPage.isPageLoaded(),
+                "RequestPasswordResetSubmitPage page is not loaded.");
 
-        //webDriver = new FirefoxDriver();
-        webDriver.get("https://www.gmail.com");
-        GmailHomePage gmailHomePage = new GmailHomePage(webDriver);
-        Assert.assertTrue(gmailHomePage.isPageLoaded(),
-                "Gmail email login page is not loaded.");
-        gmailHomePage.enterEmailAndClickNext("mir2asrt1@gmail.com");
+        LinkedinSetNewPasswordPage linkedinSetNewPasswordPage = linkedinRequestPasswordResetSubmitPage.navigateToLinkFromEmail();
+        Assert.assertTrue(linkedinSetNewPasswordPage.isPageLoaded(),
+                "NewPasswordPage page is not loaded.");
 
-        GmailEnterPasswordPage gmailEnterPasswordPage = new GmailEnterPasswordPage(webDriver);
-        Assert.assertTrue(gmailEnterPasswordPage.isPageLoaded(),
-                "Gmail password login page is not loaded.");
-        gmailEnterPasswordPage.enterPasswordAndClickNext("June0619!");
+        LinkedinPasswordChangeConfirmedPage linkedinPasswordChangeConfirmedPage = setNewPasswordPage.setNewUserPassword();
+        Assert.assertTrue(linkedinPasswordChangeConfirmedPage.isPageLoaded(),
+                "NewPasswordPage page is not loaded.");
 
-        GmailEnterEmailPage gmailEnterEmailPage = new GmailEnterEmailPage(webDriver);
-        Assert.assertTrue(gmailEnterEmailPage.isPageLoaded(),
-                "Gmail home page is not loaded.");
-        //gmailEnterEmailPage.getResetPasswordLinkFromEmail();
+        LinkedinHomePage linkedinHomePage = passwordChangeConfirmedPage.clickOnGoToHomeButton();
+        Assert.assertTrue(linkedinHomePage.isPageLoaded(),
+                "Homepage is not loaded.");
+
+
+
+
+
 
 
     }

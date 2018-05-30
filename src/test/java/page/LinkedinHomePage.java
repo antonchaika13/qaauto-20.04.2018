@@ -18,7 +18,7 @@ public class LinkedinHomePage extends LinkedinBasePage {
 
     public LinkedinHomePage(WebDriver webDriver) {
         super(webDriver);
-        //PageFactory.initElements(webDriver, this);
+        PageFactory.initElements(webDriver, this);
     }
 
     @Override
@@ -28,9 +28,11 @@ public class LinkedinHomePage extends LinkedinBasePage {
 
 
 
-    public void search(String searchTerm) {
+    public LinkedinSearchPage search(String searchTerm) {
         searchField.sendKeys(searchTerm);
         searchField.sendKeys(Keys.RETURN);
+        //return new LinkedinSearchPage(webDriver);
+        return PageFactory.initElements(webDriver, LinkedinSearchPage.class);
     }
 
 }
