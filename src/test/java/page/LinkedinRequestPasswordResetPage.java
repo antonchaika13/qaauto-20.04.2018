@@ -13,15 +13,28 @@ public class LinkedinRequestPasswordResetPage extends LinkedinBasePage {
     @FindBy(xpath ="//div/button[@ class='form__submit']")
     private WebElement submitButton;
 
+
+    /**
+     * Constructor of LinkedinRequestPasswordResetPage class)
+     * @param webDriver - current webDriver object
+     */
     public LinkedinRequestPasswordResetPage(WebDriver webDriver) {
         super(webDriver);
         PageFactory.initElements(webDriver, this);
     }
 
+    /**
+     * method that checks, is current page loaded by presence of user email input field
+     */
     public boolean isPageLoaded() {
         return userEmailField.isDisplayed();
     }
 
+    /**
+     * method that allows to make a request for reset password by enter email and submit
+     * @param userEmail
+     * @return LinkedinRequestPasswordResetSubmitPage should open
+     */
     public LinkedinRequestPasswordResetSubmitPage submitUserEmail (String userEmail){
         userEmailField.sendKeys(userEmail);
         submitButton.click();

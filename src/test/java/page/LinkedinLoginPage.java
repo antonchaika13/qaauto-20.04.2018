@@ -43,9 +43,10 @@ public class LinkedinLoginPage extends LinkedinBasePage {
 
 
     /**
+     * method that allows user to log in
      * @param userEmail
      * @param userPassword
-     * @return
+     * @return Homepage with logged-in user
      */
     public LinkedinHomePage login(String userEmail, String userPassword) {
         userEmailField.sendKeys(userEmail);
@@ -56,6 +57,12 @@ public class LinkedinLoginPage extends LinkedinBasePage {
 
     }
 
+    /**
+     * method that allows to try log in with invalid data
+     * @param userEmail
+     * @param userPassword
+     * @return Page with error message
+     */
     public LinkedinLoginSubmitPage loginWithInvalidData(String userEmail, String userPassword) {
         userEmailField.sendKeys(userEmail);
         userPasswordField.sendKeys(userPassword);
@@ -64,6 +71,12 @@ public class LinkedinLoginPage extends LinkedinBasePage {
 
     }
 
+    /**
+     * method that allows to try log in with incorrect email format
+     * @param userEmail
+     * @param userPassword
+     * @return Page with error message
+     */
     public LinkedinLoginSubmitPage loginWithIncorrectEmail(String userEmail, String userPassword) {
         userEmailField.sendKeys(userEmail);
         userPasswordField.sendKeys(userPassword);
@@ -72,6 +85,12 @@ public class LinkedinLoginPage extends LinkedinBasePage {
 
     }
 
+    /**
+     * method that allows user to try log in with correct email and small password
+     * @param userEmail
+     * @param userPassword
+     * @return Page with error message
+     */
     public LinkedinLoginSubmitPage loginWithSmallPassword(String userEmail, String userPassword) {
         userEmailField.sendKeys(userEmail);
         userPasswordField.sendKeys(userPassword);
@@ -81,6 +100,10 @@ public class LinkedinLoginPage extends LinkedinBasePage {
     }
 
 
+    /**
+     * method that allows user to click on 'Forgot password' link
+     * @return Page with email input for reset password
+     */
     public LinkedinRequestPasswordResetPage clickOnForgotPasswordLink() {
         forgotPasswordLink.click();
         return new LinkedinRequestPasswordResetPage(webDriver);

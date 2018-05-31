@@ -14,12 +14,19 @@ public class LinkedinRequestPasswordResetSubmitPage extends LinkedinBasePage {
         return resendLinkButton.isDisplayed();
     }
 
+    /**
+     * Constructor of LinkedinRequestPasswordResetSubmitPage class)
+     * @param webDriver - current webDriver object
+     */
     public LinkedinRequestPasswordResetSubmitPage(WebDriver webDriver) {
         super(webDriver);
         PageFactory.initElements(webDriver, this);
     }
 
 
+    /**
+     * method that allows to navigate to 'reset password' message received in email from Linkedin
+     */
     public LinkedinSetNewPasswordPage navigateToLinkFromEmail() {
         String messageSubject = "enter email subj here";
         String messageTo = "sst.tau@gmail.com";
