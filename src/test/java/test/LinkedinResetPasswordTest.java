@@ -4,6 +4,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import page.*;
 
+/**
+ * class LinkedinResetPasswordTest which consists of test case that checks end to end flow with reset user password
+ */
 public class LinkedinResetPasswordTest extends LinkedinBaseTest {
 
 
@@ -17,7 +20,7 @@ public class LinkedinResetPasswordTest extends LinkedinBaseTest {
         Assert.assertTrue(linkedinRequestPasswordResetPage.isPageLoaded(),
                 "Linkedin login page is not loaded.");
 
-        LinkedinRequestPasswordResetSubmitPage linkedinRequestPasswordResetSubmitPage=linkedinRequestPasswordResetPage.submitUserEmail();
+        LinkedinRequestPasswordResetSubmitPage linkedinRequestPasswordResetSubmitPage=linkedinRequestPasswordResetPage.submitUserEmail(userEmail);
         Assert.assertTrue(linkedinRequestPasswordResetSubmitPage.isPageLoaded(),
                 "RequestPasswordResetSubmitPage page is not loaded.");
 
@@ -25,11 +28,11 @@ public class LinkedinResetPasswordTest extends LinkedinBaseTest {
         Assert.assertTrue(linkedinSetNewPasswordPage.isPageLoaded(),
                 "NewPasswordPage page is not loaded.");
 
-        LinkedinPasswordChangeConfirmedPage linkedinPasswordChangeConfirmedPage = setNewPasswordPage.setNewUserPassword();
+        LinkedinPasswordChangeConfirmedPage linkedinPasswordChangeConfirmedPage = linkedinSetNewPasswordPage.setNewUserPassword();
         Assert.assertTrue(linkedinPasswordChangeConfirmedPage.isPageLoaded(),
                 "NewPasswordPage page is not loaded.");
 
-        LinkedinHomePage linkedinHomePage = passwordChangeConfirmedPage.clickOnGoToHomeButton();
+        LinkedinHomePage linkedinHomePage = linkedinPasswordChangeConfirmedPage.clickOnGoToHomeButton();
         Assert.assertTrue(linkedinHomePage.isPageLoaded(),
                 "Homepage is not loaded.");
 

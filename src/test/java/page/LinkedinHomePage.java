@@ -8,6 +8,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import page.LinkedinBasePage;
 
+/**
+ * PageObject of LinkedinHomePage with methods and variables
+ */
 public class LinkedinHomePage extends LinkedinBasePage {
 
     @FindBy(xpath = "//li[@id='profile-nav-item']")

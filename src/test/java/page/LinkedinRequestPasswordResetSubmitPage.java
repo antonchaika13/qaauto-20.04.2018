@@ -6,6 +6,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import util.GMailService;
 
+/**
+ * PageObject of LinkedinRequestPasswordResetSubmitPage with methods and variables
+ */
 public class LinkedinRequestPasswordResetSubmitPage extends LinkedinBasePage {
 
     @FindBy(xpath = "//button[@class='resend__link']")

@@ -6,6 +6,9 @@ import page.LinkedinHomePage;
 import page.LinkedinLoginSubmitPage;
 
 
+/**
+ * class LinkedinLoginTest that consists of both positive and negative test cases for verification of login to Linkedin
+ */
 public class LinkedinLoginTest extends LinkedinBaseTest {
 
 

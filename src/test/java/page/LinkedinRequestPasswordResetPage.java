@@ -6,6 +6,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import page.LinkedinBasePage;
 
+/**
+ * PageObject of LinkedinRequestPasswordResetPage with methods and variables
+ */
 public class LinkedinRequestPasswordResetPage extends LinkedinBasePage {
     @FindBy(xpath ="//div/input[@ name='userName']")
     private WebElement userEmailField;

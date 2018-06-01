@@ -5,6 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 
+/**
+ * PageObject of LinkedinLoginSubmitPage with methods and variables
+ */
 public class LinkedinLoginSubmitPage extends LinkedinBasePage {
 
     private WebElement errorMessageInvalidPassword;
