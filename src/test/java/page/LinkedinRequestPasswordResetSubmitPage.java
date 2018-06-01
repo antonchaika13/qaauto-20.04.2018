@@ -14,6 +14,7 @@ public class LinkedinRequestPasswordResetSubmitPage extends LinkedinBasePage {
     @FindBy(xpath = "//button[@class='resend__link']")
     private WebElement resendLinkButton;
     public boolean isPageLoaded() {
+        waitUntilElementIsClickable(resendLinkButton,150);
         return resendLinkButton.isDisplayed();
     }
 
@@ -31,13 +32,13 @@ public class LinkedinRequestPasswordResetSubmitPage extends LinkedinBasePage {
      * method that allows to navigate to 'reset password' message received in email from Linkedin
      */
     public LinkedinSetNewPasswordPage navigateToLinkFromEmail() {
-        String messageSubject = "enter email subj here";
-        String messageTo = "sst.tau@gmail.com";
-        String messageFrom = "SST TAU <sst.tau@gmail.com>";
+        String messageSubject = "Nick, here's the link to reset your password";
+        String messageTo = "mir2asrt1@gmail.com";
+        String messageFrom = "security-noreply@linkedin.com";
 
-        GMailService gMailService = new GMailService();
-        gMailService.connect();
-        String message = gMailService.waitMessage(messageSubject, messageTo, messageFrom, 10);
+
+
+        String message = gMailService.waitMessage(messageSubject, messageTo, messageFrom, 60);
         System.out.println("Content: " + message);
 
         return new LinkedinSetNewPasswordPage(webDriver);

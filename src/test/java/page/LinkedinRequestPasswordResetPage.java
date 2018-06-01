@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import page.LinkedinBasePage;
+import util.GMailService;
 
 /**
  * PageObject of LinkedinRequestPasswordResetPage with methods and variables
@@ -39,6 +40,8 @@ public class LinkedinRequestPasswordResetPage extends LinkedinBasePage {
      * @return LinkedinRequestPasswordResetSubmitPage should open
      */
     public LinkedinRequestPasswordResetSubmitPage submitUserEmail (String userEmail){
+        //gMailService = new GMailService();
+        gMailService.connect();
         userEmailField.sendKeys(userEmail);
         submitButton.click();
         return new LinkedinRequestPasswordResetSubmitPage(webDriver);
