@@ -1,10 +1,14 @@
 package page;
 
+import org.apache.commons.codec.binary.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import util.GMailService;
+
+import static org.apache.commons.codec.binary.StringUtils.*;
+import static org.apache.commons.lang3.StringUtils.*;
 
 /**
  * PageObject of LinkedinRequestPasswordResetSubmitPage with methods and variables
@@ -40,6 +44,9 @@ public class LinkedinRequestPasswordResetSubmitPage extends LinkedinBasePage {
 
         String message = gMailService.waitMessage(messageSubject, messageTo, messageFrom, 60);
         System.out.println("Content: " + message);
+        String resetPasswordLink = org.apache.commons.lang3.StringUtils.substringBetween(message, "To change your LinkedIn password, click <a href=\"", "\" style").replace("&amp;","&");
+        System.out.println("Content: " + resetPasswordLink);
+        webDriver.get(resetPasswordLink);
 
         return new LinkedinSetNewPasswordPage(webDriver);
     }
